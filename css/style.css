@@ -1,0 +1,21 @@
+#mainDiv {
+  width: 90%;
+  margin: 0 auto;
+  
+}
+
+#inputDiv { 
+  clear: both;
+  width: 50%;  
+  float:left;
+}
+
+#outputDiv {
+  width: 40%;
+  float:left;
+  
+}
+
+li {
+  list-style-type: none;
+}
