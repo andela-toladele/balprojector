@@ -248,12 +248,10 @@ app.controller('controller',['$scope', function ($scope){
         return retVal;
         
       case "2W":
-        var retVal = 2;
-        if(month === monthIn && day !== 1){
-          retVal -= parseInt((day - 1)/14);
-        }
-        
-        return retVal;
+
+        //to be modified later
+                
+        return 13/6;
         
     }
   }
