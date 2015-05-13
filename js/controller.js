@@ -8,9 +8,10 @@ app.controller('controller',['$scope', function ($scope){
   $scope.casualIncomes = [];
   $scope.casualExpenses = [];
   $scope.monthLabels = [];
+  $scope.startAmount = 0;
 
   $scope.addNewIncome = function(){
-    var income = {apply: true, title:'', amount: 0, freq: 30.4166666666667}
+    var income = {apply: true, title:'', amount: 0, freq: 'D'}
     $scope.incomes.push(income);
   }
 
@@ -19,7 +20,7 @@ app.controller('controller',['$scope', function ($scope){
   }
 
   $scope.addNewExpense = function(){
-    var expense = {apply: true, title:'', amount: 0, freq: 30.4166666666667}
+    var expense = {apply: true, title:'', amount: 0, freq: 'D'}
     $scope.expenses.push(expense);
   }
 
@@ -48,12 +49,12 @@ app.controller('controller',['$scope', function ($scope){
   $scope.getMonthLabels = function(){
     
     var date = new Date();
-    var curMonth = date.getMonth() - 1;
+    var curMonth = date.getMonth();
     var currYear = date.getFullYear();
     
     var months = ['Jan','Feb','Mar','Apr','May','Jun','July','Aug','Sept','Oct','Nov','Dec'];
 
-    for(var i = 0; i<12; i++){
+    for(var i = 1; i<=12; i++){
 
       curMonth += 1;
       if(curMonth > 11){
@@ -63,6 +64,198 @@ app.controller('controller',['$scope', function ($scope){
       $scope.monthLabels.push({id: i, name:months[curMonth] + ' ' + currYear});      
     }
       
+  }
+
+  $scope.netIncomes = function(){
+
+  }
+
+  $scope.multiplier = function(monthIn, yearIn, freq){
+
+    if(freq === "M" || freq === "ME"){
+      if(monthIn !== 0){
+        return 1;
+      }               
+      if(freq === "ME"){
+        return 0;
+      }
+      return 1;      
+    }
+
+    var date = new Date();
+    var month = date.getMonth();
+    var year = date.getFullYear();
+    var dayOfWeek = date.getDay(); //day of the week (0-6)
+    var day = date.getDate(); // day of the month (1-31)
+
+    var lastDayOfMonth = new Date(yearIn, monthIn + 1, 0);
+
+    var lastDay = lastDayOfMonth.getDate(); // day of the month (1-31)
+    var lastDayOfWeek = lastDayOfMonth.getDay(); //day of the week (0-6)
+    
+    switch(freq){
+      case "D": 
+        if(month === monthIn){
+          return lastDay - day + 1;
+
+        }else{
+
+          return lastDay;
+        }
+        break;
+
+      case "WD":
+        
+        var retVal = 20;
+
+        if(month === monthIn && day !== 1){
+          retVal = 29 - day - ( 2 * parseInt((28 - day)/7));
+        
+          var diff = 8 - parseInt(day % 7);
+          if(diff === 8){
+            diff = 1;
+          }
+
+          var dayLoop = dayOfWeek - 1;
+          for(var i=1; i<=diff; i++){
+            dayLoop += 1;
+            if(dayLoop === 7){
+              dayLoop = 0;
+            }
+
+            if(dayLoop === 0 || dayLoop === 6){
+              retVal -= 1;
+            }
+
+          }
+        }
+        
+        
+        if(lastDay === 28){
+          return retVal;
+        }
+        var offset;
+        if(lastDayOfWeek < 2){
+          offset = 1;
+        }else if(lastDayOfWeek === 6){
+          offset = 2;
+        }else{
+          offset = 3;
+        }
+        offset -= 31 - lastDay;
+
+        if(offset > 0){
+           retVal += offset;
+        }
+        return retVal;
+        
+
+      case "WE":
+        var retVal = 8;
+        if(month === monthIn && day !== 1){
+          retVal -= 2 * parseInt((day - 1)/7);
+        
+          var diff = 8 - parseInt(day % 7);
+          if(diff === 8){
+            diff = 1;
+          }
+
+          var dayLoop = dayOfWeek - 1;
+          for(var i=1; i<=diff; i++){
+            dayLoop += 1;
+            if(dayLoop === 7){
+              dayLoop = 0;
+            }
+
+            if(dayLoop === 0 || dayLoop === 6){
+              retVal += 1;
+            }
+
+          }
+        }
+        
+        
+        if(lastDay=== 28){
+          return retVal;
+        }
+        var offset;
+        if(lastDayOfWeek === 0){
+          offset = 2;
+        }else if(lastDayOfWeek === 6 || lastDayOfWeek === 1){
+          offset = 1;
+        }else{
+          offset = 0;
+        }
+        
+        offset = 0;
+        if(lastDay === 29 && (lastDayOfWeek === 6 || lastDayOfWeek === 0)){                    
+            offset = 1;
+        }else if (lastDayOfWeek === 0){
+          offset = 2;
+        }else if(lastDay > 29 && lastDayOfWeek === 6){
+              offset = 1;
+        }else if (lastDayOfWeek === 1){
+          if(lastDay === 30){
+            offset = 1;
+          }else if(lastDay === 31){
+            offset = 2;
+          }
+        }
+
+       
+        if(offset > 0){
+           retVal += offset;
+        }
+        return retVal;
+        
+      case "W":
+        var retVal = 4;
+        if(month === monthIn && day !== 1){
+          retVal -= parseInt((day - 1)/7) + 1;
+        
+          var diff = 8 - parseInt(day % 7);
+          if(diff === 8){
+            diff = 1;
+          }
+
+          var dayLoop = dayOfWeek - 1;
+          for(var i=1; i<=diff; i++){
+            dayLoop += 1;
+            if(dayLoop === 7){
+              dayLoop = 0;
+            }
+
+            if(dayLoop === 6){
+              retVal += 1;
+            }
+
+          }
+        }
+        
+        
+        if(lastDay === 28){
+          return retVal;
+        }
+        var offset;
+        if(lastDayOfWeek === 6){
+          retVal += 1;
+        }else if(lastDay === 31 && (lastDayOfWeek < 2)){
+          retVal += 1;
+        }else if(lastDay === 30 && (lastDayOfWeek === 0)){
+          retVal += 1;
+        }
+
+        return retVal;
+        
+      case "2W":
+        var retVal = 2;
+        if(month === monthIn && day !== 1){
+          retVal -= parseInt((day - 1)/14);
+        }
+        
+        return retVal;
+        
+    }
   }
 
   $scope.getMonthLabels();
