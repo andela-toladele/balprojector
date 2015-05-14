@@ -1,4 +1,4 @@
-var app = angular.module('myApp', []);
+var app = angular.module('myApp', ['n3-line-chart']);
 
 app.controller('controller',['$scope', function ($scope){
   $scope.MyMath = Math;
@@ -10,6 +10,35 @@ app.controller('controller',['$scope', function ($scope){
   $scope.netIncomes = new Array(12);
   $scope.monthLabels = [];
   $scope.startAmount = 0;
+
+
+  
+
+  $scope.initGraph = function(){
+
+  $scope.data = new Array(12);
+
+    for(var i=0; i<12; i++){
+      $scope.data[i] = {x: i,value: 0,otherValue: 0};
+    }
+  }
+  
+  $scope.options = {
+    axes: {
+      x: {key: 'x', labelFunction: function(value) {return $scope.getMonthLabel(value);}, type: 'linear'},
+      y: {type: 'linear'},
+      y2: {type: 'linear'}
+    },
+    series: [
+      {y: 'value', color: 'steelblue', thickness: '4px', type: 'area', label: 'Net Income Graph', drawDots: false, dotSize: 0},
+      {y: 'otherValue', axis: 'y', color: 'lightsteelblue',thickness: '2px', type: 'area', label: 'Balance Graph', visible: true, drawDots: false, dotSize: 0}
+    ],
+    lineMode: 'linear',
+    tension: 0.7,
+    drawLegend: true,
+    drawDots: false,
+    columnsHGap: 5
+  }
 
   $scope.addNewIncome = function(){
     var income = {apply: true, title:'', amount: 0, freq: 'D'}
@@ -98,12 +127,7 @@ app.controller('controller',['$scope', function ($scope){
     var curMonth = date.getMonth() - 1;
     var currYear = date.getFullYear();
 
-
-
-
     for(var i=0; i<12; i++){
-
-
       nonRegIncome = 0;
       nonRegExpense = 0;
       curMonth += 1;
@@ -115,20 +139,20 @@ app.controller('controller',['$scope', function ($scope){
 
       angular.forEach($scope.incomes, function(income) {
         if(income.apply){
-          regularIncome = Math.abs(income.amount) * $scope.multiplier(curMonth, currYear, income.freq);
+          regularIncome = Math.abs(parseFloat(income.amount)) * $scope.multiplier(curMonth, currYear, income.freq);
         }        
       });
 
       angular.forEach($scope.expenses, function(expense) {
         if(expense.apply){
-          regularExpense = -Math.abs(expense.amount) * $scope.multiplier(curMonth, currYear, expense.freq);
+          regularExpense = -Math.abs(parseFloat(expense.amount)) * $scope.multiplier(curMonth, currYear, expense.freq);
         }
       });
 
       angular.forEach($scope.casualIncomes, function(income) {
 
         if(income.month === i && income.apply){
-          nonRegIncome += Math.abs(income.amount);
+          nonRegIncome += Math.abs(parseFloat(income.amount));
         }
         
       });
@@ -136,7 +160,7 @@ app.controller('controller',['$scope', function ($scope){
       angular.forEach($scope.casualExpenses, function(expense) {
 
         if(expense.month === i && expense.apply){
-          nonRegExpense -= Math.abs(expense.amount);
+          nonRegExpense -= Math.abs(parseFloat(expense.amount));
         }
         
       });
@@ -145,9 +169,7 @@ app.controller('controller',['$scope', function ($scope){
 
       if(i !== 0){
         $scope.netIncomes[i] += $scope.netIncomes[i-1];
-      }
-
-      console.log($scope.netIncomes[i]);
+      }           
     }
 
     return $scope.netIncomes;
@@ -156,8 +178,11 @@ app.controller('controller',['$scope', function ($scope){
 
   $scope.multiplier = function(monthIn, yearIn, freq){
 
+    var date = new Date();
+    var month = date.getMonth();
+
     if(freq === "M" || freq === "ME"){
-      if(monthIn !== 0){
+      if(monthIn !== month){
         return 1;
       }               
       if(freq === "ME"){
@@ -166,8 +191,7 @@ app.controller('controller',['$scope', function ($scope){
       return 1;      
     }
 
-    var date = new Date();
-    var month = date.getMonth();
+    
     var year = date.getFullYear();
     var dayOfWeek = date.getDay(); //day of the week (0-6)
     var day = date.getDate(); // day of the month (1-31)
@@ -346,5 +370,20 @@ app.controller('controller',['$scope', function ($scope){
     }
   }
 
+  $scope.updateGraph = function(){  
+
+    var i = 0;
+    angular.forEach($scope.netIncomes, function(netIncome) {
+      $scope.data[i].value = netIncome;
+      $scope.data[i].otherValue = netIncome + $scope.startAmount;
+      ++i   
+    });
+
+  }
+
+
   $scope.getMonthLabels();
+  $scope.initGraph();
+  
+
 }]);
