@@ -30,8 +30,8 @@ app.controller('controller',['$scope', function ($scope){
       y2: {type: 'linear'}
     },
     series: [
-      {y: 'value', color: 'steelblue', thickness: '4px', type: 'area', label: 'Net Income Graph', drawDots: false, dotSize: 0},
-      {y: 'otherValue', axis: 'y', color: 'lightsteelblue',thickness: '2px', type: 'area', label: 'Balance Graph', visible: true, drawDots: false, dotSize: 0}
+      {y: 'value', color: 'steelblue', thickness: '4px', type: 'linear', label: 'Net Income Graph', drawDots: false, dotSize: 0},
+      {y: 'otherValue', axis: 'y', color: 'black',thickness: '2px', type: 'area', label: 'Balance Graph', visible: true, drawDots: false, dotSize: 0}
     ],
     lineMode: 'linear',
     tension: 0.7,
@@ -139,13 +139,13 @@ app.controller('controller',['$scope', function ($scope){
 
       angular.forEach($scope.incomes, function(income) {
         if(income.apply){
-          regularIncome = Math.abs(parseFloat(income.amount)) * $scope.multiplier(curMonth, currYear, income.freq);
+          regularIncome += Math.abs(parseFloat(income.amount)) * $scope.multiplier(curMonth, currYear, income.freq);
         }        
       });
 
       angular.forEach($scope.expenses, function(expense) {
         if(expense.apply){
-          regularExpense = -Math.abs(parseFloat(expense.amount)) * $scope.multiplier(curMonth, currYear, expense.freq);
+          regularExpense -= Math.abs(parseFloat(expense.amount)) * $scope.multiplier(curMonth, currYear, expense.freq);
         }
       });
 

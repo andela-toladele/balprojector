@@ -9,13 +9,13 @@ h2 {
   font-size: 30px;
   text-transform: uppercase;
   font-family: Arial;
-  color: #404040;
+  
 }
 
 
 p, table {
   font-family: cursive;
-  color: lime;
+  color: brown;
 }
 .graph-wrapper {
   background: #F2F2F2;
@@ -55,4 +55,8 @@ li .form-control {
 
 .addButton {
   color: blue;
+}
+
+.description {
+  margin-top: 20px;  
 }

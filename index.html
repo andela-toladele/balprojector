@@ -13,7 +13,7 @@
   <body ng-app="myApp">
 
     <div class="container" ng-controller="controller" id="mainDiv">
-      <h2>Balance Projector Sample Application</h2>
+      <h2>Balance Projector Application</h2>
         <div class="container">
           <div style="margin-bottom:20px; background: #F2F2F2;" class="row">
             <div class="col-md-2"></div>
@@ -31,7 +31,7 @@
             <p>How much money do you have today</p>
             <p><input type="number" class="form-control" ng-model="startAmount"></p>
             
-            <p>What is your regular income</p>
+            <p class="description">Add your regular source(s) of income</p>
             <li ng-repeat="income in incomes">
               <input type="checkbox" ng-model="income.apply">
               <input class="form-control" type="text" ng-model="income.title" placeholder="Enter description">
@@ -50,7 +50,7 @@
             <br/>
             <button class="btn btn-default" ng-click="addNewIncome()"><i class="fa fa-plus"><span class="addButton">Add</span></i></button>
 
-            <p>What are your regular expenses</p>
+            <p class="description">Add your regular expenses</p>
             <li ng-repeat="expense in expenses">
               <input type="checkbox" ng-model="expense.apply">
               <input class="form-control" type="text" ng-model="expense.title" placeholder="Enter description">
@@ -70,7 +70,7 @@
             <button class="btn btn-default" ng-click="addNewExpense()"><i class="fa fa-plus"><span class="addButton">Add</span></i></button>
 
 
-            <p>Your casual income</p>
+            <p class="description">Add your casual source(s) of income</p>
             <li ng-repeat="casualIncome in casualIncomes">
               <input type="checkbox" ng-model="casualIncome.apply">
               <input class="form-control" type="text" ng-model="casualIncome.title" placeholder="Enter description">
@@ -82,7 +82,7 @@
             <br/>
             <button class="btn btn-default" ng-click="addNewCasualIncome()"><i class="fa fa-plus"><span class="addButton">Add</span></i></button>
 
-            <p>Your casual expenses</p>
+            <p class="description">Add your casual expenses</p>
             <li ng-repeat="casualExpense in casualExpenses">
               <input type="checkbox" ng-model="casualExpense.apply">
               <input class="form-control" type="text" ng-model="casualExpense.title" placeholder="Enter description">
