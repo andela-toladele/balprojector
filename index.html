@@ -15,7 +15,7 @@
         <li ng-repeat="income in incomes">
           <input type="checkbox" ng-model="income.apply">
           <input type="text" ng-model="income.title" placeholder="Enter description">
-          <input type="number" ng-model="income.amount" placeholder="Amount" min="0">
+          <input type="number" ng-model="income.amount" placeholder="Amount">
           <select ng-model="income.freq">
             <option value="D">Daily</option>
             <option value="WD">Week days</option>
@@ -34,7 +34,7 @@
         <li ng-repeat="expense in expenses">
           <input type="checkbox" ng-model="expense.apply">
           <input type="text" ng-model="expense.title" placeholder="Enter description">
-          <input type="number" ng-model="expense.amount" placeholder="Amount" max="0">
+          <input type="number" ng-model="expense.amount" placeholder="Amount">
           <select ng-model="expense.freq">
             <option value="D">Daily</option>
             <option value="WD">Week days</option>
@@ -54,7 +54,7 @@
         <li ng-repeat="casualIncome in casualIncomes">
           <input type="checkbox" ng-model="casualIncome.apply">
           <input type="text" ng-model="casualIncome.title" placeholder="Enter description">
-          <input type="number" ng-model="casualIncome.amount" placeholder="Amount" min="0">
+          <input type="number" ng-model="casualIncome.amount" placeholder="Amount">
           <select ng-init="casualIncome.month = monthLabels[0].id" ng-options="monthLabel.id as monthLabel.name for monthLabel in monthLabels" ng-model="casualIncome.month">
           </select>
           <button ng-click="removeCasualIncome($index)">-</button>
@@ -66,8 +66,8 @@
         <li ng-repeat="casualExpense in casualExpenses">
           <input type="checkbox" ng-model="casualExpense.apply">
           <input type="text" ng-model="casualExpense.title" placeholder="Enter description">
-          <input type="number" ng-model="casualExpense.amount" placeholder="Amount" max="0">
-          <select ng-init="casualIncome.month = monthLabels[0].id" ng-options="monthLabel.id as monthLabel.name for monthLabel in monthLabels" ng-model="casualIncome.month"></select>
+          <input type="number" ng-model="casualExpense.amount" placeholder="Amount">
+          <select ng-init="casualIncome.month = monthLabels[0].id" ng-options="monthLabel.id as monthLabel.name for monthLabel in monthLabels" ng-model="casualExpense.month"></select>
           <button ng-click="removeCasualExpense($index)">-</button>
         <li>
         <br/>
@@ -78,10 +78,10 @@
         <table>
           <th colspan="2">Accumulated net income</th>
           <th>Balance</th>
-          <tr ng-repeat="netIncome in netIncomes()">
+          <tr ng-repeat="netIncome in getNetIncomes() track by $index">
             <td>{{getMonthLabel($index)}}</td>
-            <td>{{MyMath.round(netIncome.amount)}}</td>
-            <td>{{MyMath.round(netIncome.amount + startAmount)}}</td>
+            <td style="text-align: right">{{netIncome}}</td>
+            <td style="text-align: right">{{netIncome + startAmount}}</td>
         <table>
 
       </div>

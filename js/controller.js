@@ -7,6 +7,7 @@ app.controller('controller',['$scope', function ($scope){
   $scope.expenses = [];
   $scope.casualIncomes = [];
   $scope.casualExpenses = [];
+  $scope.netIncomes = new Array(12);
   $scope.monthLabels = [];
   $scope.startAmount = 0;
 
@@ -49,12 +50,12 @@ app.controller('controller',['$scope', function ($scope){
   $scope.getMonthLabels = function(){
     
     var date = new Date();
-    var curMonth = date.getMonth();
+    var curMonth = date.getMonth() - 1;
     var currYear = date.getFullYear();
     
     var months = ['Jan','Feb','Mar','Apr','May','Jun','July','Aug','Sept','Oct','Nov','Dec'];
 
-    for(var i = 1; i<=12; i++){
+    for(var i = 0; i<=11; i++){
 
       curMonth += 1;
       if(curMonth > 11){
@@ -66,7 +67,90 @@ app.controller('controller',['$scope', function ($scope){
       
   }
 
-  $scope.netIncomes = function(){
+   $scope.getMonthLabel = function(month){
+    
+    var date = new Date();
+    var curMonth = date.getMonth();
+    var currYear = date.getFullYear();
+    
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','July','Aug','Sept','Oct','Nov','Dec'];
+
+    curMonth += month + 1;
+
+  
+      if(curMonth > 11){
+        curMonth -= 12
+        currYear += 1;
+      }
+      return months[curMonth] + ' ' + currYear;      
+         
+  }
+
+
+
+  $scope.getNetIncomes = function(){
+    var regularIncome = 0;
+    var regularExpense = 0;
+    var nonRegIncome;
+    var nonRegExpense;
+
+    var date = new Date();
+    var curMonth = date.getMonth() - 1;
+    var currYear = date.getFullYear();
+
+
+
+
+    for(var i=0; i<12; i++){
+
+
+      nonRegIncome = 0;
+      nonRegExpense = 0;
+      curMonth += 1;
+
+      if(curMonth > 11){
+        curMonth = 0;
+        currYear += 1;
+      }
+
+      angular.forEach($scope.incomes, function(income) {
+        if(income.apply){
+          regularIncome = Math.abs(income.amount) * $scope.multiplier(curMonth, currYear, income.freq);
+        }        
+      });
+
+      angular.forEach($scope.expenses, function(expense) {
+        if(expense.apply){
+          regularExpense = -Math.abs(expense.amount) * $scope.multiplier(curMonth, currYear, expense.freq);
+        }
+      });
+
+      angular.forEach($scope.casualIncomes, function(income) {
+
+        if(income.month === i && income.apply){
+          nonRegIncome += Math.abs(income.amount);
+        }
+        
+      });
+
+      angular.forEach($scope.casualExpenses, function(expense) {
+
+        if(expense.month === i && expense.apply){
+          nonRegExpense -= Math.abs(expense.amount);
+        }
+        
+      });
+
+      $scope.netIncomes[i] = regularIncome + regularExpense + nonRegIncome + nonRegExpense;
+
+      if(i !== 0){
+        $scope.netIncomes[i] += $scope.netIncomes[i-1];
+      }
+
+      console.log($scope.netIncomes[i]);
+    }
+
+    return $scope.netIncomes;
 
   }
 
@@ -250,6 +334,12 @@ app.controller('controller',['$scope', function ($scope){
       case "2W":
 
         //to be modified later
+
+        //var retVal = 2;
+        if(month === monthIn && day !== 1){
+           //retVal -= parseInt((day - 1)/14);
+           return (day > 14)?13/12:13/6
+        }
                 
         return 13/6;
         
