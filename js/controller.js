@@ -135,21 +135,20 @@ app.controller('controller',['$scope','$localStorage', function ($scope,$localSt
         currYear += 1;
       }
 
-      angular.forEach($scope.incomes, function(income) {
-        if(income.apply){
-          regularIncome += Math.abs(parseFloat(income.amount)) * $scope.multiplier(curMonth, currYear, income.freq);
+      angular.forEach($scope.incomes, function(income) {        
+        if(income.apply && income.amount){
+          regularIncome += Math.abs(parseFloat(income.amount)) * $scope.multiplier(curMonth, currYear, income.freq);          
         }        
       });
 
       angular.forEach($scope.expenses, function(expense) {
-        if(expense.apply){
+        if(expense.apply && expense.amount){
           regularExpense -= Math.abs(parseFloat(expense.amount)) * $scope.multiplier(curMonth, currYear, expense.freq);
         }
       });
 
       angular.forEach($scope.casualIncomes, function(income) {
-
-        if(income.month === i && income.apply){
+        if(income.month === i && income.apply && income.amount){
           nonRegIncome += Math.abs(parseFloat(income.amount));
         }
         
@@ -157,7 +156,7 @@ app.controller('controller',['$scope','$localStorage', function ($scope,$localSt
 
       angular.forEach($scope.casualExpenses, function(expense) {
 
-        if(expense.month === i && expense.apply){
+        if(expense.month === i && expense.apply && expense.amount){
           nonRegExpense -= Math.abs(parseFloat(expense.amount));
         }
         
@@ -169,6 +168,9 @@ app.controller('controller',['$scope','$localStorage', function ($scope,$localSt
         $scope.netIncomes[i] += $scope.netIncomes[i-1];
       }           
     }
+
+    $scope.startBalance = $scope.startAmount || 0;
+    
     return $scope.netIncomes;
   }
 

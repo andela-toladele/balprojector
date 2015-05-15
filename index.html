@@ -1,15 +1,14 @@
 <html>
   <head>
-    <title>Balance Projector</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <title>Balance Projector</title>    
     <link type="text/css" rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <script src="js/angular.js"></script>
-    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="js/d3.v3.min.js" charset="utf-8"></script>
     <script src="js/controller.js"></script> 
     <script src="js/line-chart.min.js"></script>
     <script src="js/ngStorage.min.js"></script>    
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">  
   </head>
   <body ng-app="myApp">
 
@@ -102,7 +101,7 @@
             <tr ng-repeat="netIncome in getNetIncomes() track by $index">
               <td>{{getMonthLabel($index)}}</td>
               <td style="text-align: right">{{netIncome}}</td>
-              <td style="text-align: right">{{netIncome + startAmount}}</td>
+              <td style="text-align: right">{{netIncome + startBalance}}</td>
           <table>
           <button class="btn btn-primary" ng-click="saveData()" style="margin-top:10px">Save Data</button>
         </div>
