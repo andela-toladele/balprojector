@@ -1,4 +1,4 @@
-body {
+body.ng-scope {
   background: #BFBFBF;
   margin: 0;
 }
@@ -12,7 +12,6 @@ h2 {
   
 }
 
-
 p, table {
   font-family: cursive;
   color: brown;
@@ -24,16 +23,18 @@ p, table {
 
 #inputDiv { 
   background: #F2F2F2;
-  border: 1px solid #fff;
   border-radius: 5px; 
   padding: 20px;
+  width: 59% !important;
+  margin: 0.5%; 
 }
 
 #outputDiv {
   background: #F2F2F2;
-  border: 1px solid #fff;
   border-radius: 5px; 
   padding: 20px;
+  width: 39%;
+  margin: 0.5%;
 }
 
 button {
@@ -59,4 +60,12 @@ li .form-control {
 
 .description {
   margin-top: 20px;  
+}
+
+td.ng-binding {
+  padding: 5px;
+}
+
+tr th {
+  padding: 5px;
 }

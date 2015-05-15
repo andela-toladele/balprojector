@@ -1,18 +1,19 @@
-var app = angular.module('myApp', ['n3-line-chart']);
+var app = angular.module('myApp', ['n3-line-chart','ngStorage']);
 
-app.controller('controller',['$scope', function ($scope){
+app.controller('controller',['$scope','$localStorage', function ($scope,$localStorage){
   $scope.MyMath = Math;
 
-  $scope.incomes = [];
-  $scope.expenses = [];
-  $scope.casualIncomes = [];
-  $scope.casualExpenses = [];
-  $scope.netIncomes = new Array(12);
+  $scope.incomes = $localStorage.incomes || [];
+  $scope.expenses = $localStorage.expenses || [];
+  $scope.casualIncomes =$localStorage.casualIncomes ||  [];
+  $scope.casualExpenses =$localStorage.casualExpenses || [];
+  $scope.netIncomes = $localStorage.netIncomes || new Array(12);
   $scope.monthLabels = [];
-  $scope.startAmount = 0;
+  $scope.startAmount = $localStorage.startAmount || 0;
 
 
-  
+
+    
 
   $scope.initGraph = function(){
 
@@ -23,6 +24,12 @@ app.controller('controller',['$scope', function ($scope){
     }
   }
   
+  if($localStorage.data){
+    $scope.data = $localStorage.data;
+  }else{
+    $scope.initGraph();
+  }
+
   $scope.options = {
     axes: {
       x: {key: 'x', labelFunction: function(value) {return $scope.getMonthLabel(value);}, type: 'linear'},
@@ -381,9 +388,19 @@ app.controller('controller',['$scope', function ($scope){
 
   }
 
+  $scope.saveData = function(){
+    
+    $localStorage.incomes = $scope.incomes;
+    $localStorage.expenses = $scope.expenses;
+    $localStorage.casualIncomes = $scope.casualIncomes ;
+    $localStorage.casualExpenses = $scope.casualExpenses;
+    $localStorage.netIncomes = $scope.netIncomes;
+    $localStorage.startAmount = $scope.startAmount;
+  }
+
 
   $scope.getMonthLabels();
-  $scope.initGraph();
+ 
   
 
 }]);
