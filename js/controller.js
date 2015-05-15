@@ -2,34 +2,25 @@ var app = angular.module('myApp', ['n3-line-chart','ngStorage']);
 
 app.controller('controller',['$scope','$localStorage', function ($scope,$localStorage){
   $scope.MyMath = Math;
-
   $scope.incomes = $localStorage.incomes || [];
   $scope.expenses = $localStorage.expenses || [];
   $scope.casualIncomes =$localStorage.casualIncomes ||  [];
   $scope.casualExpenses =$localStorage.casualExpenses || [];
   $scope.netIncomes = $localStorage.netIncomes || new Array(12);
   $scope.monthLabels = [];
-  $scope.startAmount = $localStorage.startAmount || 0;
+  $scope.startAmount = $localStorage.startAmount || 0;    
 
-
-
-    
-
+  //Function to initiaze data for graph
   $scope.initGraph = function(){
 
-  $scope.data = new Array(12);
+    $scope.data = new Array(12);
 
     for(var i=0; i<12; i++){
       $scope.data[i] = {x: i,value: 0,otherValue: 0};
     }
-  }
-  
-  if($localStorage.data){
-    $scope.data = $localStorage.data;
-  }else{
-    $scope.initGraph();
-  }
+  }  
 
+  //Graph properties
   $scope.options = {
     axes: {
       x: {key: 'x', labelFunction: function(value) {return $scope.getMonthLabel(value);}, type: 'linear'},
@@ -118,15 +109,13 @@ app.controller('controller',['$scope','$localStorage', function ($scope,$localSt
         curMonth -= 12
         currYear += 1;
       }
-      return months[curMonth] + ' ' + currYear;      
-         
+      return months[curMonth] + ' ' + currYear;         
   }
 
-
-
+  //Method to generate net incomes for the next 12 months
   $scope.getNetIncomes = function(){
-    var regularIncome = 0;
-    var regularExpense = 0;
+    var regularIncome;
+    var regularExpense;
     var nonRegIncome;
     var nonRegExpense;
 
@@ -135,6 +124,8 @@ app.controller('controller',['$scope','$localStorage', function ($scope,$localSt
     var currYear = date.getFullYear();
 
     for(var i=0; i<12; i++){
+      regularIncome = 0;
+      regularExpense = 0;
       nonRegIncome = 0;
       nonRegExpense = 0;
       curMonth += 1;
@@ -173,16 +164,16 @@ app.controller('controller',['$scope','$localStorage', function ($scope,$localSt
       });
 
       $scope.netIncomes[i] = regularIncome + regularExpense + nonRegIncome + nonRegExpense;
-
+      
       if(i !== 0){
         $scope.netIncomes[i] += $scope.netIncomes[i-1];
       }           
     }
-
     return $scope.netIncomes;
-
   }
 
+  //Function to generate the multiplier for income amount based on the
+  // frequency type chosen, and the current month and year in iteration
   $scope.multiplier = function(monthIn, yearIn, freq){
 
     var date = new Date();
@@ -197,7 +188,6 @@ app.controller('controller',['$scope','$localStorage', function ($scope,$localSt
       }
       return 1;      
     }
-
     
     var year = date.getFullYear();
     var dayOfWeek = date.getDay(); //day of the week (0-6)
@@ -209,43 +199,36 @@ app.controller('controller',['$scope','$localStorage', function ($scope,$localSt
     var lastDayOfWeek = lastDayOfMonth.getDay(); //day of the week (0-6)
     
     switch(freq){
+      
       case "D": 
         if(month === monthIn){
           return lastDay - day + 1;
-
         }else{
-
           return lastDay;
         }
         break;
 
-      case "WD":
-        
+      case "WD":        
         var retVal = 20;
 
         if(month === monthIn && day !== 1){
-          retVal = 29 - day - ( 2 * parseInt((28 - day)/7));
-        
+          retVal = 29 - day - ( 2 * parseInt((28 - day)/7));        
           var diff = 8 - parseInt(day % 7);
           if(diff === 8){
             diff = 1;
           }
-
           var dayLoop = dayOfWeek - 1;
+
           for(var i=1; i<=diff; i++){
             dayLoop += 1;
             if(dayLoop === 7){
               dayLoop = 0;
             }
-
             if(dayLoop === 0 || dayLoop === 6){
               retVal -= 1;
             }
-
           }
-        }
-        
-        
+        }        
         if(lastDay === 28){
           return retVal;
         }
@@ -263,18 +246,15 @@ app.controller('controller',['$scope','$localStorage', function ($scope,$localSt
            retVal += offset;
         }
         return retVal;
-        
 
       case "WE":
         var retVal = 8;
         if(month === monthIn && day !== 1){
-          retVal -= 2 * parseInt((day - 1)/7);
-        
+          retVal -= 2 * (parseInt((day - 1)/7) + 1);        
           var diff = 8 - parseInt(day % 7);
           if(diff === 8){
             diff = 1;
           }
-
           var dayLoop = dayOfWeek - 1;
           for(var i=1; i<=diff; i++){
             dayLoop += 1;
@@ -285,24 +265,13 @@ app.controller('controller',['$scope','$localStorage', function ($scope,$localSt
             if(dayLoop === 0 || dayLoop === 6){
               retVal += 1;
             }
-
           }
         }
-        
-        
+
         if(lastDay=== 28){
           return retVal;
         }
-        var offset;
-        if(lastDayOfWeek === 0){
-          offset = 2;
-        }else if(lastDayOfWeek === 6 || lastDayOfWeek === 1){
-          offset = 1;
-        }else{
-          offset = 0;
-        }
-        
-        offset = 0;
+        var offset = 0;
         if(lastDay === 29 && (lastDayOfWeek === 6 || lastDayOfWeek === 0)){                    
             offset = 1;
         }else if (lastDayOfWeek === 0){
@@ -316,7 +285,6 @@ app.controller('controller',['$scope','$localStorage', function ($scope,$localSt
             offset = 2;
           }
         }
-
        
         if(offset > 0){
            retVal += offset;
@@ -343,15 +311,12 @@ app.controller('controller',['$scope','$localStorage', function ($scope,$localSt
             if(dayLoop === 6){
               retVal += 1;
             }
-
           }
         }
-        
-        
+                
         if(lastDay === 28){
           return retVal;
         }
-        var offset;
         if(lastDayOfWeek === 6){
           retVal += 1;
         }else if(lastDay === 31 && (lastDayOfWeek < 2)){
@@ -365,15 +330,11 @@ app.controller('controller',['$scope','$localStorage', function ($scope,$localSt
       case "2W":
 
         //to be modified later
-
-        //var retVal = 2;
         if(month === monthIn && day !== 1){
            //retVal -= parseInt((day - 1)/14);
            return (day > 14)?13/12:13/6
-        }
-                
-        return 13/6;
-        
+        }                
+        return 13/6; 
     }
   }
 
@@ -389,18 +350,16 @@ app.controller('controller',['$scope','$localStorage', function ($scope,$localSt
   }
 
   $scope.saveData = function(){
-    
+
     $localStorage.incomes = $scope.incomes;
     $localStorage.expenses = $scope.expenses;
     $localStorage.casualIncomes = $scope.casualIncomes ;
     $localStorage.casualExpenses = $scope.casualExpenses;
     $localStorage.netIncomes = $scope.netIncomes;
-    $localStorage.startAmount = $scope.startAmount;
+    $localStorage.startAmount = $scope.startAmount;    
   }
 
-
   $scope.getMonthLabels();
+  $scope.initGraph();
  
-  
-
 }]);
