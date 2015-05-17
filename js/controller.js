@@ -345,7 +345,7 @@ app.controller('controller',['$scope','$localStorage', function ($scope,$localSt
     var i = 0;
     angular.forEach($scope.netIncomes, function(netIncome) {
       $scope.data[i].value = netIncome;
-      $scope.data[i].otherValue = netIncome + $scope.startAmount;
+      $scope.data[i].otherValue = netIncome + $scope.startBalance;
       ++i   
     });
 
