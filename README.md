@@ -9,15 +9,15 @@ Left pane
 
 * The field under How much money do you have today label holds the current balance
 
-* Use the Add button under Add your regular source(s) of income to add steady and constant source(s)
+* Use the Add button under Add your regular source(s) of income segment to add steady and constant source(s)
 of income. You can use the drop down field to specify frequency.
 
-* Use the Add button under Add your regular expenses to add steady and constant expense(s). You can use the drop down field to specify frequency.
+* Use the Add button under Add your regular expenses segment to add steady and constant expense(s). You can use the drop down field to specify frequency.
 
-* Use the Add button under Add your casual source(s) of income to add occasional source(s)
+* Use the Add button under Add your casual source(s) of income segment to add occasional source(s)
 of income. You can use the drop down field to specify particular month of occurence
 
-* Use the Add button under Add your casual expense(s) to add occasional expense(s).
+* Use the Add button under Add your casual expense(s) segment to add occasional expense(s).
 * You can use the drop down field to specify particular month of occurence
 
 * You can add as many item as possible for each section.
