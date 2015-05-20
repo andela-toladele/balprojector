@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <script src="js/angular/angular.js"></script>
     <script src="js/thirdparty/d3.v3.min.js" charset="utf-8"></script>
+    <script src="js/directive/incexp.js"></script>
     <script src="js/controller/controller.js"></script> 
     <script src="js/thirdparty/line-chart.min.js"></script>
     <script src="js/thirdparty/ngStorage.min.js"></script>    
@@ -33,62 +34,30 @@
             
             <p class="description">Add your regular source(s) of income</p>
             <li ng-repeat="income in incomes">
-              <input type="checkbox" ng-model="income.apply">
-              <input class="form-control" type="text" ng-model="income.title" placeholder="Enter description">
-              <input class="form-control" type="number" ng-model="income.amount" placeholder="Amount">
-              <select class="btn btn-default" ng-model="income.freq">
-                <option value="D">Daily</option>
-                <option value="WD">Week days</option>
-                <option value="WE">Weekends</option>
-                <option value="W">Weekly</option>
-                <option value="2W">Every two weeks</option>
-                <option value="M">Monthly</option>
-                <option value="ME">Monthly(Current month excl.)</option>
-              </select>
-              <button class="btn btn-danger" ng-click="removeIncome($index)"><i class="fa fa-remove"></i></button>
-            <li>
+              <div dataobject="income" buttonclick="removeIncome($index)" income-expense-items></div>
+            </li>
             <br/>
             <button class="btn btn-default" ng-click="addNewIncome()"><i class="fa fa-plus"><span class="addButton">Add</span></i></button>
+            <p class="description">Add your regular expenses</p>         
 
-            <p class="description">Add your regular expenses</p>
             <li ng-repeat="expense in expenses">
-              <input type="checkbox" ng-model="expense.apply">
-              <input class="form-control" type="text" ng-model="expense.title" placeholder="Enter description">
-              <input class="form-control" type="number" ng-model="expense.amount" placeholder="Amount">
-              <select class="btn btn-default" ng-model="expense.freq">
-                <option value="D">Daily</option>
-                <option value="WD">Week days</option>
-                <option value="WE">Weekends</option>
-                <option value="W">Weekly</option>
-                <option value="2W">Every two weeks</option>
-                <option value="M">Monthly</option>
-                <option value="ME">Monthly(Current month excl.)</option>
-              </select>
-              <button class="btn btn-danger" ng-click="removeExpense($index)"><i class="fa fa-remove"></i></button>
-            <li>
+              <div dataobject="expense" buttonclick="removeExpense($index)" income-expense-items></div>
+            </li> 
             <br/>
             <button class="btn btn-default" ng-click="addNewExpense()"><i class="fa fa-plus"><span class="addButton">Add</span></i></button>
 
 
             <p class="description">Add your casual source(s) of income</p>
             <li ng-repeat="casualIncome in casualIncomes">
-              <input type="checkbox" ng-model="casualIncome.apply">
-              <input class="form-control" type="text" ng-model="casualIncome.title" placeholder="Enter description">
-              <input class="form-control" type="number" ng-model="casualIncome.amount" placeholder="Amount">
-              <select class="btn btn-default" ng-init="casualIncome.month = monthLabels[0].id" ng-options="monthLabel.id as monthLabel.name for monthLabel in monthLabels" ng-model="casualIncome.month">
-              </select>
-              <button class="btn btn-danger" ng-click="removeCasualIncome($index)"><i class="fa fa-remove"></i></button>
+              <div dataobject="casualIncome" monthlabelsobj="monthLabels" buttonclick="removeCasualIncome($index)" casual-income-expense-items>
+              </div> 
             <li>
             <br/>
             <button class="btn btn-default" ng-click="addNewCasualIncome()"><i class="fa fa-plus"><span class="addButton">Add</span></i></button>
 
             <p class="description">Add your casual expenses</p>
             <li ng-repeat="casualExpense in casualExpenses">
-              <input type="checkbox" ng-model="casualExpense.apply">
-              <input class="form-control" type="text" ng-model="casualExpense.title" placeholder="Enter description">
-              <input class="form-control" type="number" ng-model="casualExpense.amount" placeholder="Amount">
-              <select class="btn btn-default" ng-init="casualIncome.month = monthLabels[0].id" ng-options="monthLabel.id as monthLabel.name for monthLabel in monthLabels" ng-model="casualExpense.month"></select>
-              <button class="btn btn-danger" ng-click="removeCasualExpense($index)"><i class="fa fa-remove"></i></button>
+              <div dataobject="casualExpense" monthlabelsobj="monthLabels" buttonclick="removeCasualExpense($index)" casual-income-expense-items></div>
             <li>
             <br/>
             <button class="btn btn-default" ng-click="addNewCasualExpense()"><i class="fa fa-plus"><span class="addButton">Add</span></i></button>

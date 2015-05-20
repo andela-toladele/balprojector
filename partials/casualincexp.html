@@ -1,0 +1,5 @@
+<input type="checkbox" ng-model="dataobject.apply">
+<input class="form-control" type="text" ng-model="dataobject.title" placeholder="Enter description">
+<input class="form-control" type="number" ng-model="dataobject.amount" placeholder="Amount">
+<select class="btn btn-default" ng-init="dataobject.month = monthlabelsobj[0].id" ng-options="monthLabel.id as monthLabel.name for monthLabel in monthlabelsobj" ng-model="dataobject.month"></select>
+<button class="btn btn-danger" ng-click="buttonclick($index)"><i class="fa fa-remove"></i></button>

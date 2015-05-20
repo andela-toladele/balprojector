@@ -1,5 +1,3 @@
-var app = angular.module('myApp', ['n3-line-chart','ngStorage']);
-
 app.controller('controller',['$scope','$localStorage', function ($scope,$localStorage){
   $scope.MyMath = Math;
   $scope.incomes = $localStorage.incomes || [];
@@ -53,6 +51,8 @@ app.controller('controller',['$scope','$localStorage', function ($scope,$localSt
   }
 
   $scope.removeExpense = function(index){
+    console.log(index);
+    console.log(1);
     $scope.expenses.splice(index, 1);
   }
 

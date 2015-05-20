@@ -1,0 +1,13 @@
+  <input type="checkbox" ng-model="dataobject.apply">
+  <input class="form-control" type="text" ng-model="dataobject.title" placeholder="Enter description">
+  <input class="form-control" type="number" ng-model="dataobject.amount" placeholder="Amount">
+  <select class="btn btn-default" ng-model="dataobject.freq">
+    <option value="D">Daily</option>
+    <option value="WD">Week days</option>
+    <option value="WE">Weekends</option>
+    <option value="W">Weekly</option>
+    <option value="2W">Every two weeks</option>
+    <option value="M">Monthly</option>
+    <option value="ME">Monthly(Current month excl.)</option>
+  </select>
+  <button class="btn btn-danger" ng-click="buttonclick($index)"><i class="fa fa-remove"></i></button>
