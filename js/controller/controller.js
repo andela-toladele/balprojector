@@ -92,7 +92,7 @@ app.controller('ProjectorController',['$scope','$localStorage', function ($scope
       
   }
 
-   $scope.getMonthLabel = function(month){
+  $scope.getMonthLabel = function(month){
     
     var date = new Date();
     var curMonth = date.getMonth();
@@ -103,11 +103,11 @@ app.controller('ProjectorController',['$scope','$localStorage', function ($scope
     curMonth += month + 1;
 
   
-      if(curMonth > 11){
-        curMonth -= 12
-        currYear += 1;
-      }
-      return months[curMonth] + ' ' + currYear;         
+    if(curMonth > 11){
+      curMonth -= 12
+      currYear += 1;
+    }
+    return months[curMonth] + ' ' + currYear;         
   }
 
   //Method to generate net incomes for the next 12 months
