@@ -1,4 +1,4 @@
-app.controller('controller',['$scope','$localStorage', function ($scope,$localStorage){
+app.controller('ProjectorController',['$scope','$localStorage', function ($scope,$localStorage){
   $scope.MyMath = Math;
   $scope.incomes = $localStorage.incomes || [];
   $scope.expenses = $localStorage.expenses || [];
@@ -51,8 +51,6 @@ app.controller('controller',['$scope','$localStorage', function ($scope,$localSt
   }
 
   $scope.removeExpense = function(index){
-    console.log(index);
-    console.log(1);
     $scope.expenses.splice(index, 1);
   }
 

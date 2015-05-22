@@ -1,9 +1,9 @@
-var app = angular.module('myApp', ['n3-line-chart','ngStorage']);
+'use strict';
 
 app.directive('incomeExpenseItems', function(){
 
   return {
-    restrict: 'A',
+    restrict: 'EA',
     require: ['^dataobject','^buttonclick'],
     scope: {
       dataobject: '=',
@@ -17,7 +17,7 @@ app.directive('incomeExpenseItems', function(){
 app.directive('casualIncomeExpenseItems', function(){
 
   return {
-    restrict: 'A',
+    restrict: 'EA',
     require: ['^dataobject','^buttonclick','^monthlabelsobj'],
     scope: {
       dataobject: '=',

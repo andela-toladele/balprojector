@@ -4,16 +4,17 @@
     <link type="text/css" rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-    <script src="js/angular/angular.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
     <script src="js/thirdparty/d3.v3.min.js" charset="utf-8"></script>
+    <script src="js/app/app.js"></script> 
     <script src="js/directive/incexp.js"></script>
     <script src="js/controller/controller.js"></script> 
     <script src="js/thirdparty/line-chart.min.js"></script>
-    <script src="js/thirdparty/ngStorage.min.js"></script>    
+    <script src="bower_components/ngstorage/ngStorage.min.js"></script>    
   </head>
   <body ng-app="myApp">
 
-    <div class="container" ng-controller="controller" id="mainDiv">
+    <div class="container" ng-controller="ProjectorController" id="mainDiv">
       <h2>Balance Projector Application</h2>
         <div class="container">
           <div style="margin-bottom:20px; background: #F2F2F2;" class="row">
@@ -34,7 +35,7 @@
             
             <p class="description">Add your regular source(s) of income</p>
             <li ng-repeat="income in incomes">
-              <div dataobject="income" buttonclick="removeIncome($index)" income-expense-items></div>
+              <income-expense-items dataobject="income" buttonclick="removeIncome($index)"></income-expense-items>
             </li>
             <br/>
             <button class="btn btn-default" ng-click="addNewIncome()"><i class="fa fa-plus"><span class="addButton">Add</span></i></button>
