@@ -1,2 +1,4 @@
 node_modules
-bower_components
+karma.config.js
+package.json
+js/tests/
