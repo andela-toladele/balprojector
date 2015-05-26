@@ -38,14 +38,14 @@
               <income-expense-items dataobject="income" buttonclick="removeIncome($index)"></income-expense-items>
             </li>
             <br/>
-            <button class="btn btn-default" ng-click="addNewIncome()"><i class="fa fa-plus"><span class="addButton">Add</span></i></button>
+            <button class="btn btn-default" ng-click="addNewIncome()" id="addIncomeBttn"><i class="fa fa-plus"><span class="addButton">Add</span></i></button>
             <p class="description">Add your regular expenses</p>         
 
             <li ng-repeat="expense in expenses">
               <div dataobject="expense" buttonclick="removeExpense($index)" income-expense-items></div>
             </li> 
             <br/>
-            <button class="btn btn-default" ng-click="addNewExpense()"><i class="fa fa-plus"><span class="addButton">Add</span></i></button>
+            <button class="btn btn-default" ng-click="addNewExpense()" id="addExpenseBttn"><i class="fa fa-plus"><span class="addButton">Add</span></i></button>
 
 
             <p class="description">Add your casual source(s) of income</p>
@@ -54,28 +54,29 @@
               </div> 
             <li>
             <br/>
-            <button class="btn btn-default" ng-click="addNewCasualIncome()"><i class="fa fa-plus"><span class="addButton">Add</span></i></button>
+            <button class="btn btn-default" ng-click="addNewCasualIncome()" id="addCasualIncomeBttn"><i class="fa fa-plus"><span class="addButton">Add</span></i></button>
 
             <p class="description">Add your casual expenses</p>
             <li ng-repeat="casualExpense in casualExpenses">
               <div dataobject="casualExpense" monthlabelsobj="monthLabels" buttonclick="removeCasualExpense($index)" casual-income-expense-items></div>
             <li>
             <br/>
-            <button class="btn btn-default" ng-click="addNewCasualExpense()"><i class="fa fa-plus"><span class="addButton">Add</span></i></button>
+            <button class="btn btn-default" ng-click="addNewCasualExpense()" id="addCasualExpenseBttn"><i class="fa fa-plus"><span class="addButton">Add</span></i></button>
           </div>
 
         <div id="outputDiv" class="col-md-5">
-          <table>
+          <table ng-cloak>
             <th colspan="2">Accumulated Net Income</th>
             <th>Balance</th>
             <tr ng-repeat="netIncome in getNetIncomes() track by $index">
               <td>{{getMonthLabel($index)}}</td>
-              <td style="text-align: right">{{netIncome}}</td>
-              <td style="text-align: right">{{netIncome + startBalance}}</td>
+              <td style="text-align: right" class="netIncome">{{netIncome}}</td>
+              <td style="text-align: right" class="balance">{{netIncome + startBalance}}</td>
+            </tr>
           <table>
           <button class="btn btn-primary" ng-click="saveData()" style="margin-top:10px">Save Data</button>
         </div>
       </div>
     </div>
-</body>
+  </body>
 </html>
