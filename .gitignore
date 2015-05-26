@@ -2,3 +2,5 @@ node_modules
 karma.config.js
 package.json
 js/tests/
+js/e2etests/
+
