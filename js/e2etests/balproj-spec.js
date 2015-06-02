@@ -14,7 +14,7 @@ describe('Protractor Demo App', function() {
 
 
   beforeEach(function() {
-    browser.get('http://localhost:80');
+    browser.get('/');
     browser.driver.manage().window().maximize();﻿
   });
 
@@ -66,7 +66,7 @@ describe('Protractor Demo App', function() {
 
   
 
-  it('expects an income object to be removed from to incomes array', function(){
+  it('expects an income object to be removed from incomes array', function(){
     
     var initialIncomesLength;
     incomeFlds.count().then(function(value){

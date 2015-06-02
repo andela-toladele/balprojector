@@ -3,5 +3,6 @@ exports.config = {
   specs: ['js/e2etests/balproj-spec.js'],
   capabilities: {
     browserName: 'firefox'
-  }
+  },
+  baseUrl: 'http://localhost:80'
 };
